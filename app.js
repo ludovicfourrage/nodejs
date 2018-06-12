@@ -64,9 +64,9 @@ function auth (req, res, next) {
   }
 }
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use(express.static(path.join(__dirname, 'public')));
 
 //Auth required for the next routes
 app.use(auth);
