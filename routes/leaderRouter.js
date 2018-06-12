@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const cors = require('./cors');
 
 const leaders = require('../models/leaders');
 
@@ -9,6 +9,7 @@ const leaderRouter = express.Router();
 leaderRouter.use(bodyParser.json());
 
 leaderRouter.route('/')
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get((req,res,next)=>{
     leaders.find({}).
     then((leaders)=>{
@@ -18,7 +19,7 @@ leaderRouter.route('/')
     },(err)=>next(err))
     .catch((err) => next(err));
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     leaders.create(req.body)
     .then((leader)=>{
         console.log('leader Created', leader);
@@ -28,11 +29,11 @@ leaderRouter.route('/')
     },(err)=>next(err))
     .catch((err)=>next(err));
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('Put operation not supported on /leaders');
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     leaders.remove({})
     .then((resp)=>{
         res.statusCode = 200;
@@ -43,6 +44,7 @@ leaderRouter.route('/')
 });
 
 leaderRouter.route('/:leaderId')
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get((req,res,next)=>{
     leaders.findById(req.params.leaderId)
     .then((leader) => {
@@ -52,11 +54,11 @@ leaderRouter.route('/:leaderId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode = 403;
     res.end('Post operation not supported on /leaders/'+req.params.leaderId);
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     leaders.findByIdAndUpdate(req.params.leaderId,{
         $set:req.body
     },{new: true})
@@ -67,7 +69,7 @@ leaderRouter.route('/:leaderId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     leaders.findByIdAndRemove(req.params.leaderId)
     .then((resp) => {
         res.statusCode = 200;

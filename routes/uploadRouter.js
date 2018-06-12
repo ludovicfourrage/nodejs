@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var authenticate = require('../authenticate');
 var multer = require('multer');
+const cors = require('./cors');
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
