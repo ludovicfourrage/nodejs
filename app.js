@@ -68,6 +68,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+//
 //Auth required for the next routes
 app.use(auth);
 app.use('/dishes',dishRouter);
