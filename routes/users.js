@@ -7,7 +7,15 @@ const cors = require('./cors');
 var router = express.Router();
 
 /* GET users listing. */
-
+router.get('/' ,authenticate.verifyUser ,authenticate.verifyAdmin ,function(req, res, next) {
+  User.find({})
+   .then((users) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json(users);
+}, (err) => next(err))
+.catch((err) => next(err));
+});
 
 router.get('/facebook/token', passport.authenticate('facebook-token'), (req, res) => {
   if (req.user) {
