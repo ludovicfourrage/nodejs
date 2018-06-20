@@ -44,7 +44,7 @@ promoRouter.route('/')
 
 promoRouter.route('/:promoId')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get((req,res,next)=>{
+.get(cors.corsWithOptions, (req,res,next)=>{
     Promotions.findById(req.params.promoId)
     .then((promotion) => {
         res.statusCode = 200;

@@ -6,6 +6,7 @@ var FileStore = require('session-file-store')(session);
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var config = require('./config');
+const cors = require('cors');
 
 //Auth
 var passport = require('passport');
@@ -65,13 +66,13 @@ function auth (req, res, next) {
   }
 }
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use('*', cors());
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-//
-//Auth required for the next routes
-app.use(auth);
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/dishes',dishRouter);
 app.use('/favorites',favoriteRouter);
 app.use('/promotions',promoRouter);

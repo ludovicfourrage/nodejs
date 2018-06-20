@@ -10,7 +10,7 @@ leaderRouter.use(bodyParser.json());
 
 leaderRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get(cors.cors, (req,res,next)=>{
+.get(cors.corsWithOptions, (req,res,next)=>{
     leaders.find(req.query).
     then((leaders)=>{
         res.statusCode = 200;
@@ -45,7 +45,7 @@ leaderRouter.route('/')
 
 leaderRouter.route('/:leaderId')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get((req,res,next)=>{
+.get(cors.corsWithOptions, (req,res,next)=>{
     leaders.findById(req.params.leaderId)
     .then((leader) => {
         res.statusCode = 200;

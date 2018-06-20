@@ -8,7 +8,7 @@ var router = express.Router();
 router.options('*', cors.corsWithOptions, (req, res) => { res.sendStatus(200); } )
 
 /* GET users listing. */
-router.get('/' ,authenticate.verifyUser ,authenticate.verifyAdmin ,function(req, res, next) {
+router.get('/' ,cors.corsWithOptions, authenticate.verifyUser ,authenticate.verifyAdmin ,function(req, res, next) {
   User.find({})
    .then((users) => {
     res.statusCode = 200;

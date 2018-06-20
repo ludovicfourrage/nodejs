@@ -6,8 +6,8 @@ const cors = require('./cors');
 
 favoriteRouter.route('/')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-    .get(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-        Favorites.find({ user: req.user._id })
+    .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
+        Favorites.findOne({ user: req.user._id })
             .populate('user')
             .populate('dishes')
             .then((favorites) => {
@@ -137,7 +137,8 @@ favoriteRouter.route('/:dishId')
         Favorites.findOne({user: req.user._id })
         .then((favorites) => {
             if (favorites) {
-                if (favorites.dishes.indexOf(req.params.dishId) !== -1) {
+                var index = favorites.dishes.indexOf(req.params.dishId);
+                if ( index >= 0) {
                     favorites.dishes.splice(index, 1);
                 }
                 favorites.save()
