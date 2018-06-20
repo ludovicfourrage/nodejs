@@ -17,6 +17,7 @@ var leaderRouter = require('./routes/leaderRouter');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/uploadRouter');
+var favoriteRouter = require('./routes/favoriteRouter');
 
 var app = express();
 
@@ -72,6 +73,7 @@ app.use('/users', usersRouter);
 //Auth required for the next routes
 app.use(auth);
 app.use('/dishes',dishRouter);
+app.use('/favorites',favoriteRouter);
 app.use('/promotions',promoRouter);
 app.use('/leaders',leaderRouter);
 app.use('/imageUpload',uploadRouter);
